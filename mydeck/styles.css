@@ -1,0 +1,29 @@
+.gdbar img {
+  width: 148px !important;
+  height: 150px !important;
+  margin: 8px 8px;
+}
+
+.gdbar {
+  width: 350px !important;
+  height: 160px !important;
+}
+slides > slide:not(.nobackground):before {
+  width: 150px;
+  height: 75px;
+  background-size: 150px 75px;
+}
+
+.alignleft {
+ display: inline;
+ float: left;
+}
+.alignright {
+ display: inline;
+ float: right;
+}
+.aligncenter {
+ clear: both;
+ display: block;
+ margin:auto;
+}
