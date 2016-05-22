@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>密码学课程设计</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="密码学_files/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="密码学_files/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="密码学_files/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: '密码学课程设计',
+                        subtitle: 'RSA加解密',
+                useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                        favIcon: '密码学_files/logo.png',
+              },
+
+      // Author information
+      presenters: [
+            {
+        name:  '申恒恒' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+    slides > slide:not(.nobackground):before {
+      font-size: 12pt;
+      content: "";
+      position: absolute;
+      bottom: 20px;
+      left: 60px;
+      background: url(密码学_files/logo.png) no-repeat 0 50%;
+      -webkit-background-size: 30px 30px;
+      -moz-background-size: 30px 30px;
+      -o-background-size: 30px 30px;
+      background-size: 30px 30px;
+      padding-left: 40px;
+      height: 30px;
+      line-height: 1.9;
+    }
+  </style>
+
+  <link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <aside class="gdbar"><img src="密码学_files/logo.png"></aside>
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+          </hgroup>
+  </slide>
+
+<slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>公钥密码 </h2><h3>概述</h3></hgroup><article  id="-">
+
+</article></slide><slide class=''><hgroup><h2>公钥密码 </h2><h3> concept</h3></hgroup><article  id="-concept">
+
+<div>
+<p>
+
+公开密钥加密（英语：public-key cryptography，又译为公开密钥加密），也称为非对 称加密（asymmetric cryptography），一种密码学算法类型，在这种密码学方法中，需要一 对密钥，一个是私人密钥，另一个则是公开密钥。这两个密钥是数学相关，用某用户密钥 加密后所得的信息，只能用该用户的解密密钥才能解密。如果知道了其中一个，并不能计 算出另外一个。因此如果公开了一对密钥中的一个，并不会危害到另外一个的秘密性质。 称公开的密钥为<strong>公钥</strong>；不公开的密钥为<strong>私钥</strong>
+
+</p></div>
+
+</article></slide><slide class=''><hgroup><h2>公钥通信的流程</h2></hgroup><article >
+
+<ul class = 'build'>
+<li>Bob生成一个包含公钥和私钥的密钥对私钥由Bob自行妥善保管</li>
+<li>Bob将自己的公钥发送给Alice</li>
+<li>Alice使用Bob的公钥对消息加密</li>
+<li>Alice将密文将密文发送给Bob</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>公钥通信的流程</h2></hgroup><article  id="-1">
+
+<div align="center">
+<img src='ss.svg' height=490px alt='公钥加密流程图'></div>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>RSA算法 </h2><h3> 概述</h3></hgroup><article  id="rsa-">
+
+</article></slide><slide class=''><hgroup><h2>RSA历史来源</h2></hgroup><article  id="rsa">
+
+<p>RSA加密算法是一种非对称加密算法。在公开密钥加密和电子商业中RSA被广泛使 用。RSA是1977年由Ron Rivest、阿迪 萨莫尔Adi Shamir和伦纳 德 阿德曼Leonard Adleman一起提出的。当时他们三人都在麻省理工学院工作。RSA就 是他们三人姓氏开头字母拼在一起组成的</p>
+
+</article></slide><slide class=''><hgroup><h2>RSA 加密</h2></hgroup><article  id="rsa-">
+
+<p>假设Bob想给Alice送一个消息m，他知道Alice产生的N和E。他使用起先与Alice约好的格式将m转换为一个小于N，且与N互质的整数n，比如他可以将每一个字转换为这个字的Unicode码，然后将这些数字连在一起组成一个数字。假如他的信息非常长的话，他可以将这个信息分为几段，然后将每一段转换为n。用下面这个公式他可以将n加密为c：</p>
+
+<p>\[c \equiv n^E \ (\mathrm{mod}\ N)\]</p>
+
+<p>计算c并不复杂。Bob算出c后就可以将它传递给Alice。</p>
+
+<p>在RSA中，明文、密钥和密文都是数字，在上面的公式里,E和N的组合就是公钥，即，任何人只要拿到这两个数字，就可以完成加密的操作。</p>
+
+</article></slide><slide class=''><hgroup><h2>RSA解密</h2></hgroup><article  id="rsa">
+
+<p>Alice得到Bob的消息c后就可以利用她的密钥D来解码。她可以用以下这个公式来将c转换为n： \[ n \equiv c^D \ (\mathrm{mod}\ N) \] 得到n后，她可以将原来的信息m重新复原。 解码的原理是 \[ c^D \equiv n^{E \cdot D}\ (\mathrm{mod}\ N)\] 已知\(ED \equiv 1 \pmod{r}\)，即 \(ED=1+h\varphi (N)\)。 由欧拉定理得： \[n^{ED} = n^{1 + h\varphi(N)} = n \left(n^{\varphi(N)}\right)^{h} \equiv n (1)^{h} \pmod{N} \equiv n \pmod{N}\] 注意在这里使用的N和RSA加密是的N是一样的，那么数字D和N的组合就是RSA的私钥.</p>
+
+</article></slide><slide class=''><hgroup><h2>RSA的加密和解密 </h2><h3> workflow chart</h3></hgroup><article  id="rsa-workflow-chart">
+
+<div align="center">
+<img src='RSA.svg' height=450px alt='公钥加密流程图'></div>
+
+</article></slide><slide class=''><hgroup><h2>密钥对的生成</h2></hgroup><article >
+
+<p>由于E和N是公钥，D和N是私钥，因此求E、D和N这三个数就是生成密钥对，RSA生成密钥对的生成步骤如下：</p>
+
+<ul class = 'build'>
+<li>求N</li>
+<li>求L</li>
+<li>求E</li>
+<li>求D</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>计算 N</h2></hgroup><article  id="-n">
+
+<p>首先准备两个很大的质数 \(p\) 和 \(q\)，它们的乘积就是 \(N\)。</p>
+
+<p>\[
+N = p \cdot q
+\]</p>
+
+<p>这里选择 \(p\) = \(29\), \(q\) = \(31\), 则 \(N = p * q =\) 899。</p>
+
+</article></slide><slide class=''><hgroup><h2>计算 L</h2></hgroup><article  id="-l">
+
+<p>\(L\)是在RSA的加密和解密过程中都不出现，只出现在生成密钥对的过程中。\(L\)是\(p-1\)和\(q-1\)的最小公倍数，用\(lcm(X,Y)\)来表示“\(X\)和\(Y\)的最小公倍数”，则\(L\)可以写作如下式子： \[
+L = lcm(p-1,q-1)
+\] 在例子中，计算 \(L = ( p - 1 ) \cdot ( q - 1 )=\) 840。</p>
+
+</article></slide><slide class=''><hgroup><h2>计算 E</h2></hgroup><article  id="-e">
+
+<p>E是一个比1大比\(L\)小的数，另外，\(E\)和\(L\)的最大公约数(gcd)必须为1，若用\(gcd\)表示\(X\)和\(Y\)的最大公约数，则E和L之间存在如下关系： \[
+1 &lt; E &lt; L
+\] \[
+gcd(E,L)  = 1
+\] 对于例子来说，这里选择 \(E\) = \(37\)。</p>
+
+</article></slide><slide class=''><hgroup><h2>计算 D</h2></hgroup><article  id="-d">
+
+<p>数D是由E计算得到的，D、E和L之间必须具备如下关系： \[1 &lt; D &lt; L \] \[
+E \times D \ \mathrm{mod}\ L = 1
+\]</p>
+
+<p>在例子中用程序算的，算出来最小的 \(D\) 就是 613</p>
+
+<p>现在，得到了 \(N\),\(D\),\(E\) ，把 \(p\) 和 \(q\) 扔掉，\((n, e)\)作公钥，\((n, d)\)作私钥，就可以执行 RSA 加密运算了。</p>
+
+</article></slide><slide class=''><hgroup><h2>RSA的加密和解密—详细工作流程</h2></hgroup><article  id="rsa">
+
+<div align="center">
+<img src='rsapair.svg' height=490px alt='公钥加密流程图'></div>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>RSA算法 </h2><h3> Python实现</h3></hgroup><article  id="rsa-python">
+
+</article></slide><slide class=''><hgroup><h2>总体概述</h2></hgroup><article >
+
+<p>阐述了RSA的基本原理和算法后，利用Python设计和实现一个RSA的加解密程序，在这里我将程序部署在Web上，利用Python的Flask框架结合Python程序作为后台加解密算法的引擎，以极为友好的方式展示出来。</p>
+
+<p>Python作为一门相当高级语言来说，具有简单易用，极为灵活的特点，本次RSA的实现主要根据RSA算法进行设计的，在\(N\),\(D\),\(E\)生成，往往会用到伪随机数生成器，但在项目中，只是验证性课题，只是对\(N\),\(E\),\(D\)进行了赋值，并没有密钥对的生成环节，换言之，已经将密钥对生成完毕，直接拿过来取加解密就可以，所以该程序主要实现了如下功能:</p>
+
+<p>(1) 在密钥对生成的基础上，如何利用\(N\),\(E\),\(D\)对数据(只支持字符串)进行加密和解密</p>
+
+<p>(2) 实现了米勒-拉宾素性测试</p>
+
+</article></slide><slide class=''><hgroup><h2>工作流程图</h2></hgroup><article >
+
+<div align="center">
+<img src='encrypt-and-decrypt.svg' height=490px alt='公钥加密流程图'></div>
+
+</article></slide><slide class=''><hgroup><h2>整体设计</h2></hgroup><article >
+
+<pre class = 'prettyprint lang-python'>class RSA(object):
+    def __init__(self):...    
+    def __chr_to_num(self, char):...
+    def __num_to_chr(self, num):...
+    def __text_to_array(self, text):...  
+    def __array_to_text(self, array):...
+    def __array_to_cipher(self, array):...
+    def __cipher_to_array(self, cipher):...
+    def RSA_encrypt(self, text):...
+    def RSA_decrypt(self, cipher):...</pre>
+
+</article></slide><slide class=''><hgroup><h2>核心方法-数据加密的核心算法</h2></hgroup><article  id="-">
+
+<pre class = 'prettyprint lang-python'>def calc_mod(x, r, n):
+    &quot;&quot;&quot;Calculate the value of x**r mod n&quot;&quot;&quot;
+    a, b, c = x, r, 1
+    while b != 0:
+        while b%2 == 0:
+            b = b/2
+            a = a*a%n
+        else:
+            b = b-1
+            c = (c*a)%n
+    return c</pre>
+
+<p>计算 \[ 
+x^r  \mathrm{mod}  n 
+\]</p>
+
+</article></slide><slide class=''><hgroup><h2>核心方法-数据解密的核心算法</h2></hgroup><article  id="-">
+
+<pre class = 'prettyprint lang-python'>def calc_reverse(m, n):
+    &quot;&quot;&quot;Calculate the value of m^(-1) mod n&quot;&quot;&quot;
+    N = n
+    m %= n
+    m, n = n, m
+    q = []
+    while True:
+        q.append(m//n)
+        m, n = n, m%n
+        if n == 1:
+            break
+    P, Q = [1, q[0]], [0, 1]
+    for i in range(2, len(q)+1):
+        P.append(P[i-2]+P[i-1]*q[i-1])
+        Q.append(Q[i-2]+Q[i-1]*q[i-1])
+    return (-1)**len(q)*P[-1]%N</pre>
+
+</article></slide><slide class=''><hgroup><h2>Miller-Rabin 素性测试算法</h2></hgroup><article  id="miller-rabin-">
+
+<pre class = 'prettyprint lang-python'>def is_prime(n, k=5000):
+    &quot;&quot;&quot;Test whether n is a prime, repeat k times.&quot;&quot;&quot;
+    def mill_rab(n):
+        b = 0
+        while b%2 == 0:
+            b = random.randint(2, n-1)      # 产生一个奇数b
+        
+        s, m = 0, n-1
+        while m%2 == 0:                     # n-1 = (2**s)*m
+            m //= 2
+            s += 1
+
+        if calc_mod(b, m, n) == 1:
+            return True
+</pre>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section">
+
+<pre class = 'prettyprint lang-python'>        else:
+            for r in xrange(s):
+                if calc_mod(b, 2**r*m, n) == n-1:
+                    return True
+        return False
+    if n in [0, 1]:
+        return False
+    elif n == 2:
+        return True
+    for i in range(k):
+        if not mill_rab(n):
+            return False
+    return True
+</pre>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-1"></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="密码学_files/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/hammer.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="密码学_files/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
