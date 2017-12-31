@@ -3121,8 +3121,28 @@ height: 160px !important;
 }
 slides > slide:not(.nobackground):before {
 width: 150px;
-height: 75px;
 background-size: 150px 75px;
+}
+slides > slide:not(.nobackground):after {
+font-size: 11pt;
+content: attr(data-slide-num) "/" attr(data-total-slides);
+position: absolute;
+bottom: 20px;
+right: 60px;
+line-height: 1.9;
+}
+slide:not(.nobackground):before {
+width: 150px;
+background-size: 150px 75px;
+}
+slides > slide:not(.nobackground):before {
+font-size: 11pt;
+content: "Heng-Heng Shen";
+position: absolute;
+bottom: 18px;
+right: 60px;
+line-height: 1.9;
+padding-left: 0px;
 }
 .alignleft {
 display: inline;
